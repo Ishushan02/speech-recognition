@@ -7,7 +7,9 @@
 '''
 
 import wave
-import numpy
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 
 # Audio Signal Parameters
@@ -26,7 +28,31 @@ print(" Frames ", audio_obj.getnframes())
 print(" Frame Value ", audio_obj.getnframes())
 
 time_of_audio = audio_obj.getnframes() / audio_obj.getframerate()
-
+samples = audio_obj.getnframes()
 print(" Time of Audio is ", time_of_audio)
 
-# /Users/ishananand/Desktop/speech_recognition/.venv/bin/python -m pip install matplotlib numpy
+
+'''
+Plot the Audio
+'''
+
+obj = wave.open("ishan-audio.wav")
+sample_freq = obj.getframerate()
+n_sample = obj.getnframes()
+signal_wave = audio_obj.readframes(-1)
+obj.close()
+
+t_audio = int(n_sample/sample_freq)
+
+print(t_audio)
+
+plt.figure(figsize=(15, 5))
+signal_array = np.frombuffer(signal_wave, dtype=np.int16)
+times = np.linspace(0, t_audio, num =sample_freq )
+
+print(times.shape, signal_array.shape)
+times_truncated = signal_array[:len(times)]
+
+plt.plot(times_truncated)
+plt.show()
+
